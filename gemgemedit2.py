@@ -262,6 +262,14 @@ def getSwappingGems(board, firstXY, secondXY):
     elif firstGem['y'] == secondGem['y'] and firstGem['x'] == secondGem['x']:
         #HERE IS THE PART I ADDED IT PROBABLY WON'T WORK!
         print(firstGem['imageNum'])
+        firstGem['direction'] = None
+        secondGem['direction'] = None
+        if firstGem['imageNum'] < NUMGEMIMAGES - 1:
+            firstGem['imageNum'] += 1
+            secondGem['imageNum'] += 1
+        elif firstGem['imageNum'] == NUMGEMIMAGES - 1:
+            firstGem['imageNum'] = 0
+            secondGem['imageNum'] = 0
     else:
         # These gems are not adjacent and can't be swapped.
         return None, None

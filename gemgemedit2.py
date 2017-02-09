@@ -36,8 +36,8 @@ assert NUMGEMIMAGES >= 5 # game needs at least 5 types of gems to work
 NUMMATCHSOUNDS = 6
 
 MOVERATE = 25 # 1 to 100, larger num means faster animations
-# CHANGED FROM 0.8 TO -2
-DEDUCTSPEED = -2 # reduces score by 1 point every DEDUCTSPEED seconds.
+# CHANGED FROM 0.8 TO 2
+DEDUCTSPEED = 2 # reduces score by 1 point every DEDUCTSPEED seconds.
 
 #             R    G    B
 PURPLE    = (255,   0, 255)
@@ -230,6 +230,9 @@ def runGame():
             # score drops over time
             score -= 1
             lastScoreDeduction = time.time()
+        if (not gameIsOver) and time.time() % .01 == 0: #Added timer
+            print time.time()
+        print time.time()
         drawScore(score)
         pygame.display.update()
         FPSCLOCK.tick(FPS)
@@ -261,7 +264,6 @@ def getSwappingGems(board, firstXY, secondXY):
         secondGem['direction'] = UP
     elif firstGem['y'] == secondGem['y'] and firstGem['x'] == secondGem['x']:
         #HERE IS THE PART I ADDED IT PROBABLY WON'T WORK!
-        print(firstGem['imageNum'])
         firstGem['direction'] = None
         secondGem['direction'] = None
         if firstGem['imageNum'] < NUMGEMIMAGES - 1:

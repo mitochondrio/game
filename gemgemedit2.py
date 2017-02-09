@@ -36,9 +36,11 @@ assert NUMGEMIMAGES >= 5 # game needs at least 5 types of gems to work
 NUMMATCHSOUNDS = 6
 
 MOVERATE = 25 # 1 to 100, larger num means faster animations
-# CHANGED FROM 0.8 TO 2
-DEDUCTSPEED = 2 # reduces score by 1 point every DEDUCTSPEED seconds.
+# CHANGED FROM 0.8 TO -2 -D
+DEDUCTSPEED = -2 # reduces score by 1 point every DEDUCTSPEED seconds.
+GAMELENGTH = 120 # ADDED: the length of one game in seconds -D
 
+# CHANGED the entire color scheme to black, orange, and green -D
 #             R    G    B
 PURPLE    = (255,   0, 255)
 LIGHTBLUE = (170, 190, 255)
@@ -125,6 +127,7 @@ def runGame():
     lastMouseDownY = None
     gameIsOver = False
     lastScoreDeduction = time.time()
+    lastTimerDeduction = time.time()
     clickContinueTextSurf = None
 
     while True: # main game loop
@@ -230,9 +233,11 @@ def runGame():
             # score drops over time
             score -= 1
             lastScoreDeduction = time.time()
-        if (not gameIsOver) and time.time() % .01 == 0: #Added timer
-            print time.time()
-        print time.time()
+        #ADDED this timer -D
+        if (not gameIsOver) and time.time() - lastTimerDeduction > 1:
+            print "yo"
+            lastTimerDeduction = time.time()
+            # if 
         drawScore(score)
         pygame.display.update()
         FPSCLOCK.tick(FPS)

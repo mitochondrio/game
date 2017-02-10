@@ -36,9 +36,9 @@ assert NUMGEMIMAGES >= 5 # game needs at least 5 types of gems to work
 NUMMATCHSOUNDS = 6
 
 MOVERATE = 25 # 1 to 100, larger num means faster animations
-# CHANGED FROM 0.8 TO -2 -D
-DEDUCTSPEED = -2 # reduces score by 1 point every DEDUCTSPEED seconds.
-GAMELENGTH = 120 # ADDED: the length of one game in seconds -D
+# CHANGED from 0.8 to 2 -D
+DEDUCTSPEED = 2 # reduces score by 1 point every DEDUCTSPEED seconds.
+GAMELENGTH = 120 # ADDED the length of one game in seconds -D
 
 # CHANGED the entire color scheme to black, orange, and green -D
 #             R    G    B
@@ -57,6 +57,7 @@ GRIDCOLOR = ORANGE # color of the game board
 GAMEOVERCOLOR = ORANGE # color of the "Game over" text.
 GAMEOVERBGCOLOR = BLACK # background color of the "Game over" text.
 SCORECOLOR = GREEN # color of the text for the player's score
+TIMECOLOR = ORANGE # ADDED color for the remaining time
 
 # The amount of space to the sides of the board to the edge of the window
 # is used several times, so calculate it once here and store in variables.
@@ -119,6 +120,7 @@ def runGame():
     # initalize the board
     gameBoard = getBlankBoard()
     score = 0
+    timeLeft = GAMELENGTH
     fillBoardAndAnimate(gameBoard, [], score) # Drop the initial gems.
 
     # initialize variables for the start of a new game
@@ -235,10 +237,12 @@ def runGame():
             lastScoreDeduction = time.time()
         #ADDED this timer -D
         if (not gameIsOver) and time.time() - lastTimerDeduction > 1:
-            print "yo"
+            timeLeft -= 1
             lastTimerDeduction = time.time()
-            # if 
+            if timeLeft == 0:
+                gameIsOver = True
         drawScore(score)
+        drawTime(timeLeft)
         pygame.display.update()
         FPSCLOCK.tick(FPS)
 
@@ -268,7 +272,7 @@ def getSwappingGems(board, firstXY, secondXY):
         firstGem['direction'] = DOWN
         secondGem['direction'] = UP
     elif firstGem['y'] == secondGem['y'] and firstGem['x'] == secondGem['x']:
-        #HERE IS THE PART I ADDED IT PROBABLY WON'T WORK!
+        #ADDED if you double-click a gem, it cycles through colors
         firstGem['direction'] = None
         secondGem['direction'] = None
         if firstGem['imageNum'] < NUMGEMIMAGES - 1:
@@ -566,6 +570,12 @@ def drawScore(score):
     scoreRect.bottomleft = (10, WINDOWHEIGHT - 6)
     DISPLAYSURF.blit(scoreImg, scoreRect)
 
+# ADDED this to display the time -D
+def drawTime(time):
+    timeImg = BASICFONT.render(str(time), 1, TIMECOLOR)
+    timeRect = timeImg.get_rect()
+    timeRect.bottomright = (WINDOWWIDTH - 10, WINDOWHEIGHT - 6)
+    DISPLAYSURF.blit(timeImg, timeRect)
 
 if __name__ == '__main__':
     main()

@@ -57,7 +57,7 @@ GRIDCOLOR = ORANGE # color of the game board
 GAMEOVERCOLOR = ORANGE # color of the "Game over" text.
 GAMEOVERBGCOLOR = BLACK # background color of the "Game over" text.
 SCORECOLOR = GREEN # color of the text for the player's score
-TIMECOLOR = ORANGE # ADDED color for the remaining time
+TIMECOLOR = BLUE # ADDED color for the remaining time, change from orange to blue
 
 # The amount of space to the sides of the board to the edge of the window
 # is used several times, so calculate it once here and store in variables.
